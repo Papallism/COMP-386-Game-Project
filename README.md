@@ -4,6 +4,7 @@
 
 ---
 
+**Description:**
 I want to build a game where the player will have to complete a couple of tasks and then fight a boss.
 
 ---
