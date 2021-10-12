@@ -9,7 +9,7 @@ I want to build a game where the player will have to complete a couple of tasks 
 
 ---
 
-Initial game plan:
+Initial game plan:  
 * gather materials
 * craft weapon
 * fight boss
