@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class PlayerController : MonoBehaviour
         PlayerGrounded();
         Jump();
         Move();
+        ThrowPunch();
+        ThrowKick();
     }
 
     private void PlayerGrounded()
@@ -61,5 +64,29 @@ public class PlayerController : MonoBehaviour
         // Set movement input to animator parameters
         this.animator.SetFloat("horizontal", moveHorizontal);
         this.animator.SetFloat("vertical", moveVertical);
+    }
+
+    private void ThrowPunch()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            this.animator.SetBool("punch", true);
+        }
+        else
+        {
+            this.animator.SetBool("punch", false);
+        }
+    }
+
+    private void ThrowKick()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            this.animator.SetBool("kick", true);
+        }
+        else
+        {
+            this.animator.SetBool("kick", false);
+        }
     }
 }
