@@ -16,9 +16,9 @@ public class EnemyHP : MonoBehaviour
         currentHP = totalHP;
     }
 
+    // Function for taking damage and adjusting the HP accordingly
     public void TakeDamage(int damageTaken)
     {
-
         this.animator.SetTrigger("take_damage");
         currentHP -= damageTaken;
 
@@ -28,6 +28,7 @@ public class EnemyHP : MonoBehaviour
         }
     }
 
+    // Function for when the enemy dies
     private void EnemyIsDead()
     {
         this.animator.SetBool("is_dead", true);

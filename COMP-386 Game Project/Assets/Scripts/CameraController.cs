@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
         AdjustCamera();
     }
 
+    // Adjust the main camera view
     private void AdjustCamera()
     {
         float horizontalMouseMovement = Input.GetAxis("Mouse X");

@@ -45,8 +45,10 @@ public class PlayerController : MonoBehaviour
         ThrowKick();
     }
 
+    // Function to identify if the player character is on the ground
     private void PlayerGrounded()
     {
+        // Create a sphere on the players feet and check if it touches the floor layer mask
         if (Physics.CheckSphere(this.transform.position + Vector3.down, 0.1f, floorLayer))
         {
             this.isOnGround = true;
@@ -56,18 +58,22 @@ public class PlayerController : MonoBehaviour
             this.isOnGround = false;
         }
 
+        // Set the jump animation parameter accordingly
         this.animator.SetBool("jump", !isOnGround);
     }
 
+    // Function for when the player character jumps
     private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && this.isOnGround)
         {
             this.rigidBody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            // Play the jump audio clip
             audioSource.PlayOneShot(jumpClip);
         }
     }
 
+    // Function for the player character movement
     private void Move()
     {
         // Get user input
@@ -82,6 +88,7 @@ public class PlayerController : MonoBehaviour
         this.animator.SetFloat("horizontal", moveHorizontal);
         this.animator.SetFloat("vertical", moveVertical);
 
+        // Play the footsteps audio clip with a cooldown
         if (Time.time >= footstepCooldown && (moveHorizontal != 0 || moveVertical != 0))
         {
             footstepCooldown = Time.time + footstepRate;
@@ -89,10 +96,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Function for the player character punches
     private void ThrowPunch()
     {
+        // Check the punch cooldown
         if (Time.time >= attackCooldown)
         {
+            // If Left Mouse Button is clicked, play animation and sound and deal damage
             if (Input.GetMouseButtonDown(0))
             {
                 attackCooldown = Time.time + attackRate;
@@ -103,10 +113,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Function for the player character kicks
     private void ThrowKick()
     {
+        // Check the kick cooldown
         if (Time.time >= attackCooldown)
         {
+            // If Right Mouse Button is clicked, play animation and sound and deal damage
             if (Input.GetMouseButtonDown(1))
             {
                 attackCooldown = Time.time + attackRate;
@@ -117,25 +130,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Function for when the player character deals damage
     private void DealDamage()
     {
-        // Detect enemies that are hit
+        // Detect all enemies that are hit
         Collider[] enemiesHit = Physics.OverlapSphere(attackArea.position, attackRange, enemyLayer);
 
-        // Damage hit enemies
+        // Damage damage to all hit enemies
         foreach (var enemy in enemiesHit)
         {
             enemy.GetComponent<EnemyHP>().TakeDamage(ATTACK_DAMAGE);
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackArea == null)
-        {
-            return;
-        }
-
-        Gizmos.DrawWireSphere(attackArea.position, attackRange);
     }
 }
