@@ -21,6 +21,14 @@ public class PlayerController : MonoBehaviour
     private float attackRate = 1f;
     private float attackCooldown = 0f;
 
+    public AudioSource audioSource;
+    public AudioClip footstepsClip;
+    public AudioClip jumpClip;
+    public AudioClip punchClip;
+    public AudioClip kickClip;
+    private float footstepRate = 1f;
+    private float footstepCooldown = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +64,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && this.isOnGround)
         {
             this.rigidBody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            audioSource.PlayOneShot(jumpClip);
         }
     }
 
@@ -72,6 +81,12 @@ public class PlayerController : MonoBehaviour
         // Set movement input to animator parameters
         this.animator.SetFloat("horizontal", moveHorizontal);
         this.animator.SetFloat("vertical", moveVertical);
+
+        if (Time.time >= footstepCooldown && (moveHorizontal != 0 || moveVertical != 0))
+        {
+            footstepCooldown = Time.time + footstepRate;
+            audioSource.PlayOneShot(footstepsClip);
+        }
     }
 
     private void ThrowPunch()
@@ -83,6 +98,7 @@ public class PlayerController : MonoBehaviour
                 attackCooldown = Time.time + attackRate;
                 this.animator.SetTrigger("punch");
                 DealDamage();
+                audioSource.PlayOneShot(punchClip);
             }
         }
     }
@@ -96,6 +112,7 @@ public class PlayerController : MonoBehaviour
                 attackCooldown = Time.time + attackRate;
                 this.animator.SetTrigger("kick");
                 DealDamage();
+                audioSource.PlayOneShot(kickClip);
             }
         }
     }

@@ -10,8 +10,6 @@ public class EnemyHP : MonoBehaviour
     public int totalHP = 100;
     private int currentHP;
 
-    private int animationPlayCounter = 0;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +22,9 @@ public class EnemyHP : MonoBehaviour
         this.animator.SetTrigger("take_damage");
         currentHP -= damageTaken;
 
-        if (currentHP <= 0 && animationPlayCounter == 0)
+        if (currentHP <= 0)
         {
             EnemyIsDead();
-            animationPlayCounter++;
         }
     }
 
