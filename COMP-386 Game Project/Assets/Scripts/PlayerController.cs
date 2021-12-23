@@ -6,12 +6,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-    public LayerMask layerMask;
+    public LayerMask floorLayer;
     private Rigidbody rigidBody;
 
     public float runSpeed;
     public float jumpSpeed;
     private bool isOnGround;
+
+    public Transform attackArea;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayer;
+
+    private const int ATTACK_DAMAGE = 30;
+    private float attackRate = 1f;
+    private float attackCooldown = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerGrounded()
     {
-        if (Physics.CheckSphere(this.transform.position + Vector3.down, 0.1f, layerMask))
+        if (Physics.CheckSphere(this.transform.position + Vector3.down, 0.1f, floorLayer))
         {
             this.isOnGround = true;
         }
@@ -68,25 +76,49 @@ public class PlayerController : MonoBehaviour
 
     private void ThrowPunch()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Time.time >= attackCooldown)
         {
-            this.animator.SetBool("punch", true);
-        }
-        else
-        {
-            this.animator.SetBool("punch", false);
+            if (Input.GetMouseButtonDown(0))
+            {
+                attackCooldown = Time.time + attackRate;
+                this.animator.SetTrigger("punch");
+                DealDamage();
+            }
         }
     }
 
     private void ThrowKick()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Time.time >= attackCooldown)
         {
-            this.animator.SetBool("kick", true);
+            if (Input.GetMouseButtonDown(1))
+            {
+                attackCooldown = Time.time + attackRate;
+                this.animator.SetTrigger("kick");
+                DealDamage();
+            }
         }
-        else
+    }
+
+    private void DealDamage()
+    {
+        // Detect enemies that are hit
+        Collider[] enemiesHit = Physics.OverlapSphere(attackArea.position, attackRange, enemyLayer);
+
+        // Damage hit enemies
+        foreach (var enemy in enemiesHit)
         {
-            this.animator.SetBool("kick", false);
+            enemy.GetComponent<EnemyHP>().TakeDamage(ATTACK_DAMAGE);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackArea == null)
+        {
+            return;
+        }
+
+        Gizmos.DrawWireSphere(attackArea.position, attackRange);
     }
 }
