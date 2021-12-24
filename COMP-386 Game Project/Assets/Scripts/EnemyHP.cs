@@ -6,7 +6,8 @@ using UnityEngine;
 public class EnemyHP : MonoBehaviour
 {
     public Animator animator;
-
+    public AudioSource audioSource;
+    public AudioClip deathClip;
     public int totalHP = 100;
     private int currentHP;
 
@@ -14,6 +15,7 @@ public class EnemyHP : MonoBehaviour
     void Start()
     {
         currentHP = totalHP;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Function for taking damage and adjusting the HP accordingly
@@ -24,6 +26,8 @@ public class EnemyHP : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            audioSource.Stop();
+            audioSource.PlayOneShot(deathClip);
             EnemyIsDead();
         }
     }

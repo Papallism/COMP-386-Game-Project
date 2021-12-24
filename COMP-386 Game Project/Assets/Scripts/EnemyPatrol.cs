@@ -19,11 +19,14 @@ public class EnemyPatrol : MonoBehaviour
     public AudioClip attackClip;
     public float attackCooldown = 3;
     public float attackWait;
+    public int attackDamage = 30;
+    private GameObject playerObject;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+        player = playerObject.transform;
         currentIdleWait = idleWait;
         destinationPoint = 0;
         transform.LookAt(patrolPoints[destinationPoint].position);
@@ -34,7 +37,7 @@ public class EnemyPatrol : MonoBehaviour
     void Update()
     {
         CheckIfPlayerIsInAggroRange();
-        if (isPlayerInRange)
+        if (isPlayerInRange && playerObject.GetComponent<PlayerHP>().currentHP > 0)
         {
             animator.SetBool("is_walking", true);
             transform.LookAt(player.position);
@@ -46,6 +49,7 @@ public class EnemyPatrol : MonoBehaviour
                     animator.SetTrigger("attack");
                     audioSource.PlayOneShot(attackClip);
                     attackWait = attackCooldown;
+                    playerObject.GetComponent<PlayerHP>().TakeDamage(attackDamage);
                 }
                 else
                 {
