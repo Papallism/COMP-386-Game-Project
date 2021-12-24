@@ -8,39 +8,97 @@ public class EnemyPatrol : MonoBehaviour
     public Animator animator;
     public Transform[] patrolPoints;
     public float movementSpeed;
-    public float turningSpeed;
-
-    private float distance;
+    public bool isPlayerInRange = false;
+    private Transform player;
+    public float distanceToPatrolPoint;
+    public float distanceToPlayer;
     private int destinationPoint;
     public float idleWait;
     private float currentIdleWait;
+    public AudioSource audioSource;
+    public AudioClip attackClip;
+    public float attackCooldown = 3;
+    public float attackWait;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         currentIdleWait = idleWait;
         destinationPoint = 0;
         transform.LookAt(patrolPoints[destinationPoint].position);
+        attackWait = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Patrol();
-        distance = Vector2.Distance(transform.position, patrolPoints[destinationPoint].position);
-        if (distance < 1.5f)
+        CheckIfPlayerIsInAggroRange();
+        if (isPlayerInRange)
         {
-            if (currentIdleWait <= 0)
+            animator.SetBool("is_walking", true);
+            transform.LookAt(player.position);
+            transform.position = Vector3.MoveTowards(transform.position, player.position, movementSpeed * Time.deltaTime);
+            if (IsPlayerIsInMeleeRange())
             {
-                NextPatrolPoint();
-                Patrol();
-                currentIdleWait = idleWait;
+                if (attackWait <= 0)
+                {
+                    animator.SetTrigger("attack");
+                    audioSource.PlayOneShot(attackClip);
+                    attackWait = attackCooldown;
+                }
+                else
+                {
+                    attackWait -= Time.deltaTime;
+                }
             }
-            else
+        }
+        else
+        {
+            Patrol();
+            distanceToPatrolPoint = Vector2.Distance(transform.position, patrolPoints[destinationPoint].position);
+            if (distanceToPatrolPoint < 0.5f)
             {
-                animator.SetBool("is_walking", false);
-                currentIdleWait -= Time.deltaTime;
+                if (currentIdleWait <= 0)
+                {
+                    NextPatrolPoint();
+                    Patrol();
+                    currentIdleWait = idleWait;
+                }
+                else
+                {
+                    animator.SetBool("is_walking", false);
+                    currentIdleWait -= Time.deltaTime;
+                }
             }
+        }
+    }
+
+    // Function to check if player is in melee range
+    private bool IsPlayerIsInMeleeRange()
+    {
+        distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= 2f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // Function to check if player is in aggro range
+    private void CheckIfPlayerIsInAggroRange()
+    {
+        distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer <= 10f)
+        {
+            isPlayerInRange = true;
+        }
+        else
+        {
+            isPlayerInRange = false;
         }
     }
 
@@ -49,7 +107,7 @@ public class EnemyPatrol : MonoBehaviour
     {
         animator.SetBool("is_walking", true);
         transform.LookAt(patrolPoints[destinationPoint].position);
-        transform.position = Vector2.MoveTowards(transform.position, patrolPoints[destinationPoint].position, movementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, patrolPoints[destinationPoint].position, movementSpeed * Time.deltaTime);
     }
 
     // Function for selecting the next patrol point
