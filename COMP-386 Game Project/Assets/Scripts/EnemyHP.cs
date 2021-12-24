@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class EnemyHP : MonoBehaviour
@@ -10,6 +11,7 @@ public class EnemyHP : MonoBehaviour
     public AudioClip deathClip;
     public int totalHP = 100;
     private int currentHP;
+    public Slider slider;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +25,7 @@ public class EnemyHP : MonoBehaviour
     {
         this.animator.SetTrigger("take_damage");
         currentHP -= damageTaken;
-
+        slider.value = currentHP;
         if (currentHP <= 0)
         {
             audioSource.Stop();
