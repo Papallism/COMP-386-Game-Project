@@ -7,7 +7,9 @@ public class EnemyPatrol : MonoBehaviour
 {
     public Animator animator;
     public Transform[] patrolPoints;
-    public float speed;
+    public float movementSpeed;
+    public float turningSpeed;
+
     private float distance;
     private int destinationPoint;
     public float idleWait;
@@ -25,8 +27,8 @@ public class EnemyPatrol : MonoBehaviour
     void Update()
     {
         Patrol();
-        distance = Vector3.Distance(transform.position, patrolPoints[destinationPoint].position);
-        if (distance < 1f)
+        distance = Vector2.Distance(transform.position, patrolPoints[destinationPoint].position);
+        if (distance < 1.5f)
         {
             if (currentIdleWait <= 0)
             {
@@ -46,7 +48,8 @@ public class EnemyPatrol : MonoBehaviour
     private void Patrol()
     {
         animator.SetBool("is_walking", true);
-        transform.position = Vector3.MoveTowards(transform.position, patrolPoints[destinationPoint].position, speed * Time.deltaTime);
+        transform.LookAt(patrolPoints[destinationPoint].position);
+        transform.position = Vector2.MoveTowards(transform.position, patrolPoints[destinationPoint].position, movementSpeed * Time.deltaTime);
     }
 
     // Function for selecting the next patrol point

@@ -32,8 +32,7 @@ public class EnemyHP : MonoBehaviour
     private void EnemyIsDead()
     {
         this.animator.SetBool("is_dead", true);
-
-        this.GetComponent<Collider>().enabled = false;
+        this.GetComponent<EnemyPatrol>().enabled = false;
         this.enabled = false;
     }
 }
