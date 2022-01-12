@@ -11,6 +11,7 @@ public class PlayerHP : MonoBehaviour
     public AudioClip deathClip;
     public int totalHP = 200;
     public int currentHP;
+    private bool isDead = false;
     public Slider hpSlider;
 
     // Start is called before the first frame update
@@ -23,12 +24,16 @@ public class PlayerHP : MonoBehaviour
     // Function for when the player takes damage
     public void TakeDamage(int damageTaken)
     {
-        animator.SetTrigger("take_damage");
-        currentHP -= damageTaken;
-        hpSlider.value = currentHP;
-        if (currentHP <= 0)
+        if (!isDead)
         {
-            PlayerIsDead();
+            animator.SetTrigger("take_damage");
+            currentHP -= damageTaken;
+            hpSlider.value = (float)currentHP / totalHP;
+            if (currentHP <= 0)
+            {
+                isDead = true;
+                PlayerIsDead();
+            }
         }
     }
 

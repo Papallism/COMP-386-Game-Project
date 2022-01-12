@@ -871,9 +871,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 100
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1709,13 +1709,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 0cdbfd40446741c4b9ddee4beca7c7c7, type: 2}
     - target: {fileID: 5866666021909216657, guid: 70de997090309424eb4ceb7914551f02, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Hips'\n\tTransform 'Spine1'\n\tTransform
-        'Neck'\n\tTransform 'RightHandIndex3'\n\tTransform 'RightHandMiddle1'\n\tTransform
-        'LeftUpLeg'\n\tTransform 'RightHandThumb3'\n\tTransform 'RightHandThumb2'\n\tTransform
-        'RightLeg'\n\tTransform 'LeftFoot'\n\tand more ...\n\tFrom animation clip
-        'Mutant Idle'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6038414690906536434, guid: 70de997090309424eb4ceb7914551f02, type: 3}
       propertyPath: m_Layer
@@ -2370,9 +2364,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 100
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

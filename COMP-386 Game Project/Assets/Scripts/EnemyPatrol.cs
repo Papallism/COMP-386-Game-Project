@@ -46,9 +46,9 @@ public class EnemyPatrol : MonoBehaviour
             {
                 if (attackWait <= 0)
                 {
+                    attackWait = attackCooldown;
                     animator.SetTrigger("attack");
                     audioSource.PlayOneShot(attackClip);
-                    attackWait = attackCooldown;
                     playerObject.GetComponent<PlayerHP>().TakeDamage(attackDamage);
                 }
                 else

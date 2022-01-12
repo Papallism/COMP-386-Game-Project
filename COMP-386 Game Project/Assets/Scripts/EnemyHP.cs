@@ -11,6 +11,7 @@ public class EnemyHP : MonoBehaviour
     public AudioClip deathClip;
     public int totalHP = 100;
     private int currentHP;
+    private bool isDead = false;
     public Slider slider;
 
     // Start is called before the first frame update
@@ -23,22 +24,26 @@ public class EnemyHP : MonoBehaviour
     // Function for taking damage and adjusting the HP accordingly
     public void TakeDamage(int damageTaken)
     {
-        this.animator.SetTrigger("take_damage");
-        currentHP -= damageTaken;
-        slider.value = currentHP;
-        if (currentHP <= 0)
+        if (!isDead)
         {
-            audioSource.Stop();
-            audioSource.PlayOneShot(deathClip);
-            EnemyIsDead();
+            this.animator.SetTrigger("take_damage");
+            currentHP -= damageTaken;
+            slider.value = (float)currentHP / totalHP;
+            if (currentHP <= 0)
+            {
+                isDead = true;
+                audioSource.Stop();
+                audioSource.PlayOneShot(deathClip);
+                EnemyIsDead();
+            }
         }
     }
 
     // Function for when the enemy dies
     private void EnemyIsDead()
     {
-        this.animator.SetBool("is_dead", true);
-        this.GetComponent<EnemyPatrol>().enabled = false;
         this.enabled = false;
+        this.GetComponent<EnemyPatrol>().enabled = false;
+        this.animator.SetBool("is_dead", true);
     }
 }
