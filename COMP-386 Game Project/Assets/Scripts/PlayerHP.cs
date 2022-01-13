@@ -9,6 +9,7 @@ public class PlayerHP : MonoBehaviour
     public Animator animator;
     public AudioSource audioSource;
     public AudioClip deathClip;
+    public AudioClip healthPickUpClip;
     public int totalHP = 200;
     public int currentHP;
     private bool isDead = false;
@@ -37,6 +38,7 @@ public class PlayerHP : MonoBehaviour
     public void PickUpHealth()
     {
         currentHP += healthPickUp;
+        audioSource.PlayOneShot(healthPickUpClip);
         hpSlider.value = (float)currentHP / totalHP;
     }
 
