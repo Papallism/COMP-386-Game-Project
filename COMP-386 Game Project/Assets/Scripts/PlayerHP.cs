@@ -13,12 +13,14 @@ public class PlayerHP : MonoBehaviour
     public int currentHP;
     private bool isDead = false;
     public Slider hpSlider;
+    public Text gameOverText;
 
     // Start is called before the first frame update
     void Start()
     {
         currentHP = totalHP;
         audioSource = GetComponent<AudioSource>();
+        Cursor.visible = false;
     }
 
     // Function for when the player takes damage
@@ -44,5 +46,7 @@ public class PlayerHP : MonoBehaviour
         this.GetComponent<PlayerController>().enabled = false;
         animator.SetBool("is_dead", true);
         audioSource.PlayOneShot(deathClip);
+        gameOverText.text = "GAME OVER";
+        Cursor.visible = true;
     }
 }

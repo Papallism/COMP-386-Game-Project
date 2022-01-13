@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public PlayerController playerController;
-    public float sensitivity = 400;
+    public float sensitivity = 200;
     public float angle = 40;
 
     private float horizontalRotation;

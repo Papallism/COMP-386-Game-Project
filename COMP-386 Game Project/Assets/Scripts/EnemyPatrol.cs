@@ -20,6 +20,7 @@ public class EnemyPatrol : MonoBehaviour
     public float attackCooldown = 3;
     public float attackWait;
     public int attackDamage = 30;
+    private float hitDelayTime = 0.75f;
     private GameObject playerObject;
 
     // Start is called before the first frame update
@@ -36,20 +37,19 @@ public class EnemyPatrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckIfPlayerIsInAggroRange();
+        IsPlayerInAggroRange();
         if (isPlayerInRange && playerObject.GetComponent<PlayerHP>().currentHP > 0)
         {
             animator.SetBool("is_walking", true);
             transform.LookAt(player.position);
             transform.position = Vector3.MoveTowards(transform.position, player.position, movementSpeed * Time.deltaTime);
-            if (IsPlayerIsInMeleeRange())
+            if (IsPlayerInMeleeRange())
             {
                 if (attackWait <= 0)
                 {
                     attackWait = attackCooldown;
                     animator.SetTrigger("attack");
-                    audioSource.PlayOneShot(attackClip);
-                    playerObject.GetComponent<PlayerHP>().TakeDamage(attackDamage);
+                    StartCoroutine(HitDelay());
                 }
                 else
                 {
@@ -78,8 +78,19 @@ public class EnemyPatrol : MonoBehaviour
         }
     }
 
+    private IEnumerator HitDelay()
+    {
+        yield return new WaitForSeconds(hitDelayTime);
+
+        audioSource.PlayOneShot(attackClip);
+        if (IsPlayerInMeleeRange())
+        {
+            playerObject.GetComponent<PlayerHP>().TakeDamage(attackDamage);
+        }
+    }
+
     // Function to check if player is in melee range
-    private bool IsPlayerIsInMeleeRange()
+    private bool IsPlayerInMeleeRange()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= 2f)
@@ -93,7 +104,7 @@ public class EnemyPatrol : MonoBehaviour
     }
 
     // Function to check if player is in aggro range
-    private void CheckIfPlayerIsInAggroRange()
+    private void IsPlayerInAggroRange()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= 10f)
