@@ -14,6 +14,7 @@ public class PlayerHP : MonoBehaviour
     private bool isDead = false;
     public Slider hpSlider;
     public Text gameOverText;
+    public int healthPickUp = 50;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,22 @@ public class PlayerHP : MonoBehaviour
         currentHP = totalHP;
         audioSource = GetComponent<AudioSource>();
         Cursor.visible = false;
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "HealthPickUp")
+        {
+            PickUpHealth();
+            collision.gameObject.GetComponent<HealthPickUp>().enabled = false;
+            collision.gameObject.SetActive(false);
+        }
+    }
+
+    public void PickUpHealth()
+    {
+        currentHP += healthPickUp;
+        hpSlider.value = (float)currentHP / totalHP;
     }
 
     // Function for when the player takes damage
