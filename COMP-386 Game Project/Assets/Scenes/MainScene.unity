@@ -4322,7 +4322,7 @@ MonoBehaviour:
   boss: {fileID: 1210759953}
   player: {fileID: 1775639809}
   bossAnimator: {fileID: 659448795}
-  movementSpeed: 2.5
+  movementSpeed: 4
   distanceToPlayer: 0
   isPlayerInPatrolArea: 0
 --- !u!1001 &1403616848
@@ -5670,7 +5670,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   runSpeed: 6
-  jumpSpeed: 4
+  jumpSpeed: 6
   attackArea: {fileID: 3781483}
   attackRange: 1
   enemyLayer:

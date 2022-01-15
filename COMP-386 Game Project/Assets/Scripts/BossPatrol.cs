@@ -7,9 +7,11 @@ public class BossPatrol : MonoBehaviour
     public GameObject boss;
     public GameObject player;
     public Animator bossAnimator;
-    public float movementSpeed = 2.5f;
+    public float movementSpeed = 4f;
     public float distanceToPlayer;
     public bool isPlayerInPatrolArea;
+    private float attackWait = 0f;
+    private float attackCooldown = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +28,35 @@ public class BossPatrol : MonoBehaviour
         {
             BossLooksAtPlayer();
         }
-        if (isPlayerInPatrolArea && distanceToPlayer > 2f)
+        if (isPlayerInPatrolArea && distanceToPlayer > 2.5f)
         {
             bossAnimator.SetBool("Run", true);
             boss.transform.position += boss.transform.forward * movementSpeed * Time.deltaTime;
             //boss.transform.position = Vector3.MoveTowards(boss.transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         }
-        else
+        if (isPlayerInPatrolArea && distanceToPlayer <= 2.5f)
         {
-            bossAnimator.SetBool("Run", false);
+            if (attackWait <= 0)
+            {
+                int attackChoice = Random.Range(1, 3);
+                Debug.Log(attackChoice);
+                switch (attackChoice)
+                {
+                    case 1:
+                        attackWait = attackCooldown;
+                        bossAnimator.SetTrigger("JumpAttack");
+                        //StartCoroutine(HitDelay());
+                        break;
+                    case 2:
+                        attackWait = attackCooldown;
+                        bossAnimator.SetTrigger("Attack");
+                        break;
+                }
+            }
+            else
+            {
+                attackWait -= Time.deltaTime;
+            }
         }
     }
 
@@ -63,6 +85,7 @@ public class BossPatrol : MonoBehaviour
         if (other.gameObject == player)
         {
             isPlayerInPatrolArea = false;
+            bossAnimator.SetBool("Run", false);
         }
     }
 }
