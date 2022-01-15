@@ -42,8 +42,16 @@ public class EnemyHP : MonoBehaviour
     // Function for when the enemy dies
     private void EnemyIsDead()
     {
-        this.enabled = false;
-        this.GetComponent<EnemyPatrol>().enabled = false;
+        if (this.tag == "Boss")
+        {
+            GameObject.FindWithTag("Boss Patrol Area").GetComponent<BossPatrol>().enabled = false;
+            GameObject.FindWithTag("Boss Patrol Area").SetActive(false);
+        }
+        else if (this.tag == "Skeleton Zombie")
+        {
+            GameObject.FindWithTag("Skeleton Zombie").GetComponent<EnemyPatrol>().enabled = false;
+            this.enabled = false;
+        }
         this.slider.gameObject.SetActive(false);
         this.animator.SetBool("is_dead", true);
     }

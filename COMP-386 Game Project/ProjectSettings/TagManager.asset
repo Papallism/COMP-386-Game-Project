@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Plane
   - HealthPickUp
+  - Boss
+  - Skeleton Zombie
+  - Boss Patrol Area
   layers:
   - Default
   - TransparentFX
