@@ -44,6 +44,7 @@ public class EnemyHP : MonoBehaviour
     {
         this.enabled = false;
         this.GetComponent<EnemyPatrol>().enabled = false;
+        this.slider.gameObject.SetActive(false);
         this.animator.SetBool("is_dead", true);
     }
 }

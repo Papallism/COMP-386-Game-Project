@@ -29,17 +29,22 @@ public class PlayerHP : MonoBehaviour
     {
         if (collision.gameObject.tag == "HealthPickUp")
         {
-            PickUpHealth();
-            collision.gameObject.GetComponent<HealthPickUp>().enabled = false;
-            collision.gameObject.SetActive(false);
+            if (currentHP < totalHP)
+            {
+                PickUpHealth();
+                collision.gameObject.GetComponent<HealthPickUp>().enabled = false;
+                collision.gameObject.SetActive(false);
+            }
         }
     }
 
     public void PickUpHealth()
     {
+
         currentHP += healthPickUp;
         audioSource.PlayOneShot(healthPickUpClip);
         hpSlider.value = (float)currentHP / totalHP;
+
     }
 
     // Function for when the player takes damage
