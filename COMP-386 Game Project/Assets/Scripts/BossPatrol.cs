@@ -11,7 +11,7 @@ public class BossPatrol : MonoBehaviour
     public float distanceToPlayer;
     public bool isPlayerInPatrolArea;
     private float attackWait = 0f;
-    private float attackCooldown = 3f;
+    private float attackCooldown = 2f;
     public AudioSource audioSource;
     public AudioClip attackClip;
     public AudioClip jumpAttackClip;
@@ -38,7 +38,7 @@ public class BossPatrol : MonoBehaviour
             boss.transform.position += boss.transform.forward * movementSpeed * Time.deltaTime;
             //boss.transform.position = Vector3.MoveTowards(boss.transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         }
-        if (isPlayerInPatrolArea && distanceToPlayer <= 2f)
+        if (isPlayerInPatrolArea && distanceToPlayer <= 2f && player.GetComponent<PlayerHP>().currentHP > 0)
         {
             bossAnimator.SetBool("Run", false);
             if (attackWait <= 0)

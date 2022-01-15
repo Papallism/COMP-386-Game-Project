@@ -9,6 +9,7 @@ TagManager:
   - Boss
   - Skeleton Zombie
   - Boss Patrol Area
+  - Hammer
   layers:
   - Default
   - TransparentFX

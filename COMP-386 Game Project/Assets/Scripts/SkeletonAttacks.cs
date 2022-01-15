@@ -17,7 +17,7 @@ public class SkeletonAttacks : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= 2f)
         {
-            player.GetComponent<PlayerHP>().TakeDamage(5);
+            player.GetComponent<PlayerHP>().TakeDamage(20);
         }
     }
 }

@@ -20,11 +20,11 @@ public class BossAttacks : MonoBehaviour
 
     public void PerformAttack()
     {
-        player.GetComponent<PlayerHP>().TakeDamage(5);
+        player.GetComponent<PlayerHP>().TakeDamage(30);
     }
 
     public void PerformJumpAttack()
     {
-        player.GetComponent<PlayerHP>().TakeDamage(10);
+        player.GetComponent<PlayerHP>().TakeDamage(50);
     }
 }

@@ -15,7 +15,10 @@ public class PlayerHP : MonoBehaviour
     private bool isDead = false;
     public Slider hpSlider;
     public Text gameOverText;
+    public Text objective;
     public int healthPickUp = 50;
+    public GameObject skeleton;
+    public GameObject boss;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,25 @@ public class PlayerHP : MonoBehaviour
         currentHP = totalHP;
         audioSource = GetComponent<AudioSource>();
         Cursor.visible = false;
+    }
+
+    private void Update()
+    {
+        int skeletonHP = skeleton.GetComponent<EnemyHP>().currentHP;
+        int bossHP = boss.GetComponent<EnemyHP>().currentHP;
+        if (skeletonHP <= 0)
+        {
+            objective.text = "Find the magic hammer to open the gate";
+        }
+        if (skeletonHP <= 0 && this.GetComponent<PlayerController>().solvedPuzzle)
+        {
+            objective.text = "Kill the Maw";
+        }
+        if (skeletonHP <= 0 && bossHP <= 0)
+        {
+            gameOverText.text = "YOU WON!";
+            objective.text = "Objectives completed";
+        }
     }
 
     void OnTriggerEnter(Collider collision)

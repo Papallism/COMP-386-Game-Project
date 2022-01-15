@@ -40,7 +40,9 @@ public class EnemyPatrol : MonoBehaviour
         IsPlayerInAggroRange();
         if (isPlayerInRange && playerObject.GetComponent<PlayerHP>().currentHP > 0)
         {
-            transform.LookAt(player.position);
+            Vector3 playerDirection = player.transform.position;
+            playerDirection.y = transform.position.y;
+            transform.LookAt(playerDirection);
             if (!IsPlayerInMeleeRange())
             {
                 animator.SetBool("is_walking", true);
@@ -63,9 +65,12 @@ public class EnemyPatrol : MonoBehaviour
         }
         else
         {
-            Patrol();
             distanceToPatrolPoint = Vector2.Distance(transform.position, patrolPoints[destinationPoint].position);
-            if (distanceToPatrolPoint < 0.5f)
+            if (distanceToPatrolPoint > 1f)
+            {
+                Patrol();
+            }
+            if (distanceToPatrolPoint <= 1f)
             {
                 if (currentIdleWait <= 0)
                 {
@@ -75,6 +80,7 @@ public class EnemyPatrol : MonoBehaviour
                 }
                 else
                 {
+                    this.GetComponent<Rigidbody>().velocity = Vector3.zero;
                     animator.SetBool("is_walking", false);
                     currentIdleWait -= Time.deltaTime;
                 }
@@ -93,7 +99,7 @@ public class EnemyPatrol : MonoBehaviour
     private bool IsPlayerInMeleeRange()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= 1f)
+        if (distanceToPlayer <= 2f)
         {
             return true;
         }
@@ -107,7 +113,7 @@ public class EnemyPatrol : MonoBehaviour
     private void IsPlayerInAggroRange()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= 10f)
+        if (distanceToPlayer <= 15f)
         {
             isPlayerInRange = true;
         }
@@ -120,6 +126,9 @@ public class EnemyPatrol : MonoBehaviour
     // Function for enemy to move to patrol points
     private void Patrol()
     {
+        Vector3 lookDirection = patrolPoints[destinationPoint].position;
+        lookDirection.y = transform.position.y;
+        transform.LookAt(lookDirection);
         animator.SetBool("is_walking", true);
         transform.LookAt(patrolPoints[destinationPoint].position);
         transform.position = Vector3.MoveTowards(transform.position, patrolPoints[destinationPoint].position, movementSpeed * Time.deltaTime);

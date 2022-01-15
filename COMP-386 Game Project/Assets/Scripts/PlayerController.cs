@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
     private float footstepRate = 1f;
     private float footstepCooldown = 0f;
 
+    public GameObject wall1;
+    public GameObject wall2;
+    private float wallMovingSpeed = 0.5f;
+    public bool solvedPuzzle = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +48,11 @@ public class PlayerController : MonoBehaviour
         Move();
         ThrowPunch();
         ThrowKick();
+
+        if (solvedPuzzle && GameObject.FindWithTag("Skeleton Zombie").GetComponent<EnemyHP>().currentHP <= 0)
+        {
+            OpenGates();
+        }
     }
 
     // Function to identify if the player character is on the ground
@@ -140,6 +150,18 @@ public class PlayerController : MonoBehaviour
         foreach (var enemy in enemiesHit)
         {
             enemy.GetComponent<EnemyHP>().TakeDamage(ATTACK_DAMAGE);
+        }
+    }
+
+    private void OpenGates()
+    {
+        if (wall1.transform.position.x < 30)
+        {
+            wall1.transform.Translate(Vector3.right * wallMovingSpeed * Time.deltaTime);
+        }
+        if (wall2.transform.position.x > -30)
+        {
+            wall2.transform.Translate(Vector3.left * wallMovingSpeed * Time.deltaTime, Space.World);
         }
     }
 }
