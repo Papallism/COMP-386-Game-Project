@@ -12,6 +12,10 @@ public class BossPatrol : MonoBehaviour
     public bool isPlayerInPatrolArea;
     private float attackWait = 0f;
     private float attackCooldown = 3f;
+    public AudioSource audioSource;
+    public AudioClip attackClip;
+    public AudioClip jumpAttackClip;
+    public AudioClip damageClip;
 
     // Start is called before the first frame update
     void Start()
@@ -40,15 +44,17 @@ public class BossPatrol : MonoBehaviour
             if (attackWait <= 0)
             {
                 int attackChoice = Random.Range(1, 3);
-                Debug.Log(attackChoice);
                 switch (attackChoice)
                 {
                     case 1:
+                        audioSource.PlayOneShot(jumpAttackClip);
+                        StartCoroutine(HitDelay());
                         attackWait = attackCooldown;
                         bossAnimator.SetTrigger("JumpAttack");
-                        //StartCoroutine(HitDelay());
                         break;
                     case 2:
+                        audioSource.PlayOneShot(attackClip);
+                        audioSource.PlayOneShot(damageClip);
                         attackWait = attackCooldown;
                         bossAnimator.SetTrigger("Attack");
                         break;
@@ -59,6 +65,12 @@ public class BossPatrol : MonoBehaviour
                 attackWait -= Time.deltaTime;
             }
         }
+    }
+
+    private IEnumerator HitDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        audioSource.PlayOneShot(damageClip);
     }
 
     private void BossLooksAtPlayer()

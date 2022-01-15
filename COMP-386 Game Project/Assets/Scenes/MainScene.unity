@@ -4055,11 +4055,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2290ba6a18d9ec648ada2a163c5bc4db, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4101,7 +4101,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4579,6 +4579,10 @@ MonoBehaviour:
   movementSpeed: 4
   distanceToPlayer: 0
   isPlayerInPatrolArea: 0
+  audioSource: {fileID: 1210759957}
+  attackClip: {fileID: 8300000, guid: 7957d3e367b9c184c8769f86e733e0b1, type: 3}
+  jumpAttackClip: {fileID: 8300000, guid: 2bc962ba894ecca4eb5980c6c38663f1, type: 3}
+  damageClip: {fileID: 8300000, guid: 8b13007a2ed215f48a5bba880ed026f5, type: 3}
 --- !u!1001 &1403616848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7853,7 +7857,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
