@@ -40,11 +40,15 @@ public class EnemyPatrol : MonoBehaviour
         IsPlayerInAggroRange();
         if (isPlayerInRange && playerObject.GetComponent<PlayerHP>().currentHP > 0)
         {
-            animator.SetBool("is_walking", true);
             transform.LookAt(player.position);
-            transform.position = Vector3.MoveTowards(transform.position, player.position, movementSpeed * Time.deltaTime);
+            if (!IsPlayerInMeleeRange())
+            {
+                animator.SetBool("is_walking", true);
+                transform.position = Vector3.MoveTowards(transform.position, player.position, movementSpeed * Time.deltaTime);
+            }
             if (IsPlayerInMeleeRange())
             {
+                this.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 if (attackWait <= 0)
                 {
                     attackWait = attackCooldown;
@@ -83,17 +87,13 @@ public class EnemyPatrol : MonoBehaviour
         yield return new WaitForSeconds(hitDelayTime);
 
         audioSource.PlayOneShot(attackClip);
-        if (IsPlayerInMeleeRange())
-        {
-            playerObject.GetComponent<PlayerHP>().TakeDamage(attackDamage);
-        }
     }
 
     // Function to check if player is in melee range
     private bool IsPlayerInMeleeRange()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= 2f)
+        if (distanceToPlayer <= 1f)
         {
             return true;
         }

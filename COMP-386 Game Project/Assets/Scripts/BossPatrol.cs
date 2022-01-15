@@ -28,14 +28,15 @@ public class BossPatrol : MonoBehaviour
         {
             BossLooksAtPlayer();
         }
-        if (isPlayerInPatrolArea && distanceToPlayer > 2.5f)
+        if (isPlayerInPatrolArea && distanceToPlayer > 2f)
         {
             bossAnimator.SetBool("Run", true);
             boss.transform.position += boss.transform.forward * movementSpeed * Time.deltaTime;
             //boss.transform.position = Vector3.MoveTowards(boss.transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         }
-        if (isPlayerInPatrolArea && distanceToPlayer <= 2.5f)
+        if (isPlayerInPatrolArea && distanceToPlayer <= 2f)
         {
+            bossAnimator.SetBool("Run", false);
             if (attackWait <= 0)
             {
                 int attackChoice = Random.Range(1, 3);
