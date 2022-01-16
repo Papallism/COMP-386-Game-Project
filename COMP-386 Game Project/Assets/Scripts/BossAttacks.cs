@@ -23,7 +23,7 @@ public class BossAttacks : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= 2f)
         {
-            player.GetComponent<PlayerHP>().TakeDamage(30);
+            player.GetComponent<PlayerHP>().TakeDamage(40);
         }
     }
 

@@ -19,7 +19,7 @@ public class EnemyPatrol : MonoBehaviour
     public AudioClip attackClip;
     public float attackCooldown = 3;
     public float attackWait;
-    public int attackDamage = 30;
+    public int attackDamage = 50;
     private float hitDelayTime = 0.75f;
     private GameObject playerObject;
 

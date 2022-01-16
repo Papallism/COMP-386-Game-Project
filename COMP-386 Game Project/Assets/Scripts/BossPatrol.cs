@@ -32,13 +32,13 @@ public class BossPatrol : MonoBehaviour
         {
             BossLooksAtPlayer();
         }
-        if (isPlayerInPatrolArea && distanceToPlayer > 2f)
+        if (isPlayerInPatrolArea && player.GetComponent<PlayerHP>().currentHP > 0 && distanceToPlayer > 2f)
         {
             bossAnimator.SetBool("Run", true);
             boss.transform.position += boss.transform.forward * movementSpeed * Time.deltaTime;
             //boss.transform.position = Vector3.MoveTowards(boss.transform.position, player.transform.position, movementSpeed * Time.deltaTime);
         }
-        if (isPlayerInPatrolArea && distanceToPlayer <= 2f && player.GetComponent<PlayerHP>().currentHP > 0)
+        if (isPlayerInPatrolArea && player.GetComponent<PlayerHP>().currentHP > 0 && distanceToPlayer <= 2f && player.GetComponent<PlayerHP>().currentHP > 0)
         {
             bossAnimator.SetBool("Run", false);
             if (attackWait <= 0)

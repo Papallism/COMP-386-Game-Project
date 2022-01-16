@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 0.5f;
     public LayerMask enemyLayer;
 
-    private const int ATTACK_DAMAGE = 30;
+    private const int ATTACK_DAMAGE = 20;
     private float attackRate = 1f;
     private float attackCooldown = 0f;
 
@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     public GameObject wall2;
     private float wallMovingSpeed = 0.5f;
     public bool solvedPuzzle = false;
+    public AudioClip openGateClip;
+    private bool gateClipPlayed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +53,11 @@ public class PlayerController : MonoBehaviour
 
         if (solvedPuzzle && GameObject.FindWithTag("Skeleton Zombie").GetComponent<EnemyHP>().currentHP <= 0)
         {
+            if (!gateClipPlayed)
+            {
+                audioSource.PlayOneShot(openGateClip);
+                gateClipPlayed = true;
+            }
             OpenGates();
         }
     }

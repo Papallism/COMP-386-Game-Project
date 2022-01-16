@@ -6,6 +6,8 @@ using UnityEngine;
 public class MagicHammer : MonoBehaviour
 {
     public Text hammerText;
+    public AudioSource audioSource;
+    public AudioClip hammerPickUpClip;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class MagicHammer : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 hammerText.text = "";
+                audioSource.PlayOneShot(hammerPickUpClip);
                 GameObject.FindWithTag("Hammer").SetActive(false);
                 GameObject.FindWithTag("Player").GetComponent<PlayerController>().solvedPuzzle = true;
             }
