@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHP : MonoBehaviour
@@ -19,6 +20,8 @@ public class PlayerHP : MonoBehaviour
     public int healthPickUp = 50;
     public GameObject skeleton;
     public GameObject boss;
+    private static bool gamePaused = false;
+    public GameObject pauseMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,7 @@ public class PlayerHP : MonoBehaviour
         currentHP = totalHP;
         audioSource = GetComponent<AudioSource>();
         Cursor.visible = false;
+        pauseMenu.SetActive(false);
     }
 
     private void Update()
@@ -42,9 +46,44 @@ public class PlayerHP : MonoBehaviour
         }
         if (skeletonHP <= 0 && bossHP <= 0)
         {
+            Cursor.visible = true;
             gameOverText.text = "YOU WON!";
             objective.text = "Objectives completed";
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Menu();
+        }
+    }
+
+    public void Menu()
+    {
+        if (!gamePaused)
+        {
+            gamePaused = true;
+            Cursor.visible = true;
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            gamePaused = false;
+            Cursor.visible = false;
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void RestartGame()
+    {
+        gamePaused = false;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainScene");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     void OnTriggerEnter(Collider collision)

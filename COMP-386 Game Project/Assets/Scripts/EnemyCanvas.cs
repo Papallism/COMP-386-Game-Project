@@ -16,7 +16,7 @@ public class EnemyCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position + camera.transform.rotation * Vector3.back, camera.transform.rotation * Vector3.up);
 
     }
 }
