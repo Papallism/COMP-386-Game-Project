@@ -133,5 +133,6 @@ public class PlayerHP : MonoBehaviour
         audioSource.PlayOneShot(deathClip);
         gameOverText.text = "GAME OVER";
         Cursor.visible = true;
+        pauseMenu.SetActive(true);
     }
 }
