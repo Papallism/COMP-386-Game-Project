@@ -20,11 +20,19 @@ public class BossAttacks : MonoBehaviour
 
     public void PerformAttack()
     {
-        player.GetComponent<PlayerHP>().TakeDamage(30);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer <= 2f)
+        {
+            player.GetComponent<PlayerHP>().TakeDamage(30);
+        }
     }
 
     public void PerformJumpAttack()
     {
-        player.GetComponent<PlayerHP>().TakeDamage(50);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer <= 2.5f)
+        {
+            player.GetComponent<PlayerHP>().TakeDamage(50);
+        }
     }
 }

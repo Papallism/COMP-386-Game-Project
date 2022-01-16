@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class MagicHammer : MonoBehaviour
 {
+    public Text hammerText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,7 @@ public class MagicHammer : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                hammerText.text = "";
                 GameObject.FindWithTag("Hammer").SetActive(false);
                 GameObject.FindWithTag("Player").GetComponent<PlayerController>().solvedPuzzle = true;
             }

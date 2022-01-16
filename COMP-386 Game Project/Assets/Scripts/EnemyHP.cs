@@ -45,12 +45,10 @@ public class EnemyHP : MonoBehaviour
         if (this.tag == "Boss")
         {
             GameObject.FindWithTag("Boss Patrol Area").GetComponent<BossPatrol>().enabled = false;
-            //GameObject.FindWithTag("Boss Patrol Area").SetActive(false);
         }
         else if (this.tag == "Skeleton Zombie")
         {
             GameObject.FindWithTag("Skeleton Zombie").GetComponent<EnemyPatrol>().enabled = false;
-            //this.enabled = false;
         }
         this.slider.gameObject.SetActive(false);
         this.animator.SetBool("is_dead", true);
